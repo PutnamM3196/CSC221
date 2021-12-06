@@ -12,6 +12,9 @@ class Container:
     
     def __init__(self):
         self.contents = {}
+    def money(self):
+        self.money = 10
+        #players money total
         
     def add(self, item):
         self.contents[item.name] = item

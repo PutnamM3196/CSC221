@@ -10,6 +10,7 @@ from Room import Room
 from Player import Player
 from Item import Item
 
+
 class MyGame(Game):
     def setup(self):
         loader = MyGameLoader()
@@ -68,7 +69,7 @@ class MyGameLoader:
         hub.addItem(phone)
     
         sword = Item("sword","the best sword from the local blacksmith")
-        weaponShop.addItem(sword)
+        hub.addItem(sword)
         
         return rooms
     

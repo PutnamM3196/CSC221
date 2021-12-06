@@ -5,7 +5,7 @@
 
 from Room import Room
 from Player import Player
-
+import Fight
 
 class Game:
 
@@ -14,8 +14,10 @@ class Game:
         self.rooms = { } 
         self.player = Player() 
         
+        
         self.isPlaying = True
         self.isVerbose = True # auto-look on move
+        
         
 
     def __str__(self):
@@ -72,6 +74,16 @@ class Game:
         elif verb == "drop":
             item = words[1]
             self.commandDrop(item)
+        elif verb == "use":
+            item = words[1]
+            if item == "sword":    
+                self.commandFight(item)
+            elif item == "phone":
+                self.commandPhone(item)
+            else:
+                print("You can't fight with a",item)
+        elif verb == "money":
+            self.money(money)
         elif verb == "help":
             print("""
 go [direction] -- Moves your character in that direction (ex. North)
@@ -100,27 +112,28 @@ quit -- exits the game
             self.here   = newRoom
             if self.isVerbose:
                 self.here.describe()
-    
+    def money(self, money):
+        print(self.here.money)
     def commandGet(self, itemName):
         """ remove the item from the room (if it's there)
         and place it in player inventory.
         """
-        # TODO: actually do this
-        # We'll need to remove the item from the current
-        # room, and then add it to the player inventory
-        # (which means we need a player inventory)
         print("You try to get the", itemName)
-        # THIS IS BROKEN
-        # until Container is fixed. (SEE CONTAINER.PY)
         
         if self.here.contains(itemName):
             item = self.here.contents[itemName]
             self.here.moveItemTo(item, self.player)
-            print("You pick up the",itemName,".")
+            print("You pick up the",itemName)
         else:
             print("You can't see any", itemName, "here.")
-        
-     
+    def commandFight(self, itemName):
+        if self.player.contains(itemName):
+            Fight.main()
+        else:
+            print("Don't have a sword")
+    def commandPhone(self, itemName):
+        if self.player.contains(itemName):
+            print("Your phone has no signal")
     def commandDrop(self, itemName):
         """ remove the item from player inventory
         (if it's there) and add it to the room. 
